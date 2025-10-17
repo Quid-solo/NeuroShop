@@ -1,4 +1,4 @@
-import conf from "../configVariables/conf";
+import conf from "./configVariables/conf";
 
 import { Client, Account, ID } from "appwrite";
 
