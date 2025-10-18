@@ -1,7 +1,6 @@
 import {useSelector} from 'react-redux';
 import {useNavigate, Link} from 'react-router-dom';
-import { Logo } from '../index';
-
+import { Logo, Container, HeaderIconMenu } from '../index';
 
 export default function Header () {
 
@@ -19,11 +18,7 @@ export default function Header () {
             url: '/login',
             active: !authActive,
         },
-        {
-            name: 'AccountIcon',
-            url: '/',
-            active: authActive,
-        },
+        
     ]
 
     return(
@@ -41,9 +36,10 @@ export default function Header () {
                 <li key={item.name}>
                   <button 
                     onClick={()=>navigate(item.url)}
-                    className='inline-block px-6 py-2 duration-200 hover:bg-blue-100 rounded-full'>{item.name}</button>
+                    className='inline-block px-6 py-2 duration-200 hover:bg-blue-100 rounded-full mx-2'>{item.name}</button>
                 </li>) : null
               )}
+              {authActive && <HeaderIconMenu/>}
             </ul>
           </nav>
         </Container>
