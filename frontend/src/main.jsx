@@ -5,7 +5,8 @@ import App from './App.jsx'
 import { Provider } from 'react-redux'
 import store from './store/store.js'
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom'
-import { Protected, SignIn, SignUp } from './components/index.js'
+import { AddProduct, SignIn, SignUp } from './pages/index.js'
+import { Protected } from './components/index.js'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -18,6 +19,11 @@ const router = createBrowserRouter(
       <Route path='signup' element={
         <Protected authentication={false}>
           <SignUp />
+        </Protected>
+      } />
+      <Route path='add-product' element={
+        <Protected authentication={true}>
+          <AddProduct />
         </Protected>
       } />
     </Route>

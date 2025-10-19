@@ -18,6 +18,11 @@ export default function Header () {
             url: '/login',
             active: !authActive,
         },
+        {
+            name: 'Add product',
+            url: '/add-product',
+            active: authActive,
+        },
         
     ]
 

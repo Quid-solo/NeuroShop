@@ -9,7 +9,7 @@ import Input from './Input/Input';
 import Home from './Home/Home';
 import Protected from './Protected/Protected';
 import HeaderIconMenu from './HeaderIconMenu/HeaderIconMenu';
-
+import AddProduct from './AddProduct/AddProduct';
 
 export {
     SignIn,
@@ -23,4 +23,5 @@ export {
     Home,
     Protected,
     HeaderIconMenu,
+    AddProduct,
 }
