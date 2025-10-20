@@ -1,9 +1,20 @@
+import { useNavigate } from "react-router-dom";
 import { Button, Input, Logo } from "../index";
 import { useForm } from "react-hook-form";
 
 export default function AddProduct(){
 
     const {register, handleSubmit} = useForm();
+    const navigate = useNavigate();
+
+    const registerProduct = async (data)=>{
+        const productUrl = encodeURIComponent(data.url);
+        navigate('/'); 
+
+        const response = await fetch(`http://localhost:5000/api/scrape/amazon?url=${productUrl}`);
+        const productData = await response.json();
+        console.log(productData);
+    }
 
     return(
         <div className='flex items-center justify-center w-full'>
@@ -14,7 +25,7 @@ export default function AddProduct(){
                     </span>
                 </div>
                 <h2 className='text-center text-2xl font-bold leading-tight'>Add product url</h2>
-                <form className="mt-8">
+                <form onSubmit={handleSubmit(registerProduct)} className="mt-8">
                     <div className="space-y-5">
                         <Input
                         label="URl:"
