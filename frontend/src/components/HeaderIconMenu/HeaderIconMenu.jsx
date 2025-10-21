@@ -6,7 +6,7 @@ import {useNavigate} from 'react-router-dom'
 import {useDispatch} from 'react-redux'
 import {logout} from '../../store/authSlice'
 import {Button} from '../index'
- 
+
 export default function HeaderIconMenu(){
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -48,8 +48,10 @@ export default function HeaderIconMenu(){
         createPortal(
           <div className="fixed top-14 right-5 bg-white border border-gray-300 shadow-lg rounded-md z-[9999] w-48 pointer-events-auto">
             <ul className="divide-y divide-gray-200">
-              <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer" onClick={() => console.log('Profile clicked')}>My Account</li>
-              <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer" onClick={() => alert('Settings clicked')}>My Orders</li>
+              <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer" >My Account</li>
+              <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer" >My Products</li>
+              <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer" >My Orders</li>
+              <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer" >Wishlist</li>
               <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer"><Button onClick={logoutHandler}>Logout</Button></li>
             </ul>
           </div>,

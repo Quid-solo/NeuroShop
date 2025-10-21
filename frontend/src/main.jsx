@@ -11,6 +11,7 @@ import { Protected } from './components/index.js'
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<App />}>
+      
       <Route path='login' element={
         <Protected authentication={false}>
           <SignIn />
