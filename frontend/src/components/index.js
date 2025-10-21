@@ -10,6 +10,8 @@ import Home from './Home/Home';
 import Protected from './Protected/Protected';
 import HeaderIconMenu from './HeaderIconMenu/HeaderIconMenu';
 import AddProduct from './AddProduct/AddProduct';
+import ProductCard from './ProductCard/ProductCard';
+
 
 export {
     SignIn,
@@ -24,4 +26,5 @@ export {
     Protected,
     HeaderIconMenu,
     AddProduct,
+    ProductCard,
 }
