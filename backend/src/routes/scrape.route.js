@@ -1,6 +1,6 @@
 import express from 'express';
 import identifyPlatform from '../utils/identifyPlatform.js';
-import { scraperMap } from '../scrapers/index.js';
+import { scraperMap } from '../scraper/index.js';
 
 const router = express.Router();
 

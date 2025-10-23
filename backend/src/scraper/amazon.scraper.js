@@ -15,11 +15,14 @@ export const scrapeAmazon = async (url) => {
   const price = await page.$eval('.a-price-whole', el => el.textContent.trim());
   const currencySymbol = await page.$eval('.a-price-symbol', el => el.textContent.trim());
   const mrp = await page.$eval('.a-price.a-text-price .a-offscreen', el => el.textContent.trim());
-
-
+  const categories = await page.$$eval(
+    '#wayfinding-breadcrumbs_feature_div ul li span',
+    spans => spans
+      .map(el => el.textContent.replace(/›/g, '').replace(/>/g, '').trim())
+      .filter(Boolean)
+  );
 
   await browser.close();
   console.log(title, price);
-  return { imageUrl, title, currencySymbol, price, mrp };
+  return { name: 'amazon', url, imageUrl, title, price, mrp, categories };
 };
-

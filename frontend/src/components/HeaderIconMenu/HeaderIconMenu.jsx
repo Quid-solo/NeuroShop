@@ -40,7 +40,8 @@ export default function HeaderIconMenu(){
     return (
     <div className="user-menu-wrapper" ref={ref}>
       <FaUserCircle
-        className="user-icon"
+        size={30}
+        className="my-auto mx-2 inline-block cursor-pointer"
         onClick={() => setOpen(!open)}
         style={{ cursor: 'pointer', fontSize: '2rem' }}
       />

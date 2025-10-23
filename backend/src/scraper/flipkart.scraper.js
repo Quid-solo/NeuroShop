@@ -11,9 +11,16 @@ export const scrapeFlipkart = async (url) => {
     const title = await page.$eval('.VU-ZEz', el => el.textContent.trim());
     const price = await page.$eval('.Nx9bqj.CxhGGd', el => el.textContent.trim());
     const mrp = await page.$eval('.yRaY8j.A6\\+E6v', el => el.textContent.trim());
+    const categories = await page.$$eval(
+        '._7dPnhA .r2CdBx',
+        els => els
+            .map(el => el.textContent.trim())
+            .slice(1, -1)
+            .filter(Boolean)
+    );
 
     await browser.close();
-    return { imageUrl, title, price, mrp };
+    return { name: 'flipkart', url, imageUrl, title, price, mrp, categories };
 
 
 }
