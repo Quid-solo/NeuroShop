@@ -1,6 +1,7 @@
 import puppeteer from 'puppeteer';
+import { matchOnAmazon } from '../matcher/index.js';
 
-export const scrapeFlipkart = async (url) => {
+export const scrapeFlipkart = async (url, fresh) => {
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
     await page.goto(url, { waitUntil: 'networkidle2' });
@@ -20,7 +21,11 @@ export const scrapeFlipkart = async (url) => {
     );
 
     await browser.close();
-    return { name: 'flipkart', url, imageUrl, title, price, mrp, categories };
 
+    let amazonProd;
+    if(fresh) {
+      amazonProd = await matchOnAmazon(title, mrp);
+      return { flipkart: {url, imageUrl, title, price, mrp, categories,}, amazon: amazonProd };
+    } else return {url, imageUrl, title, price, mrp, categories,};
 
 }

@@ -16,7 +16,7 @@ router.get('/', async (req, res) => {
 
 
   try {
-    const data = await scraper(url);
+    const data = await scraper(url, true);
     res.json(data);
   } catch (err) {
     res.status(500).json({ error: 'Scraping failed', details: err.message });

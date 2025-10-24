@@ -1,7 +1,8 @@
 import puppeteer from 'puppeteer';
+import { matchOnFlipkart } from '../matcher/index.js';
 // import {asyncHandler} from '../utils/asyncHandler.js';
 
-export const scrapeAmazon = async (url) => {
+export const scrapeAmazon = async (url, fresh) => {
   const browser = await puppeteer.launch({ headless: true });
   const page = await browser.newPage();
   await page.goto(url, { waitUntil: 'networkidle2' });
@@ -13,7 +14,6 @@ export const scrapeAmazon = async (url) => {
   );
   const title = await page.$eval('#productTitle', el => el.textContent.trim());
   const price = await page.$eval('.a-price-whole', el => el.textContent.trim());
-  const currencySymbol = await page.$eval('.a-price-symbol', el => el.textContent.trim());
   const mrp = await page.$eval('.a-price.a-text-price .a-offscreen', el => el.textContent.trim());
   const categories = await page.$$eval(
     '#wayfinding-breadcrumbs_feature_div ul li span',
@@ -23,6 +23,10 @@ export const scrapeAmazon = async (url) => {
   );
 
   await browser.close();
-  console.log(title, price);
-  return { name: 'amazon', url, imageUrl, title, price, mrp, categories };
+  // console.log(title, price);
+  let flipkartProd;
+  if(fresh) {
+    flipkartProd = await matchOnFlipkart(title, mrp);
+    return { amazon: {url, imageUrl, title, price, mrp, categories,}, flipkart: flipkartProd };
+  } else return {url, imageUrl, title, price, mrp, categories,};
 };
