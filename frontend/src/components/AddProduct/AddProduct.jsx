@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { Button, Input, Logo } from "../index";
 import { useForm } from "react-hook-form";
+import service from "../../../../appwrite/config";
 
 export default function AddProduct(){
 
@@ -9,11 +10,24 @@ export default function AddProduct(){
 
     const registerProduct = async (data)=>{
         const productUrl = encodeURIComponent(data.url);
-        navigate('/'); 
-
-        const response = await fetch(`http://localhost:5000/api/scrape/amazon?url=${productUrl}`);
-        const productData = await response.json();
-        console.log(productData);
+        
+        try {
+            const response = await fetch(`http://localhost:5000/api/scrape?url=${productUrl}`);
+            const productData = await response.json();
+            const mrp = productData?.amazon?.mrp || productData?.flipkart?.mrp;
+            if(mrp) {
+                delete productData?.amazon?.mrp
+                delete productData?.flipkart?.mrp
+            }
+                service.addProduct({mrp, platform: productData});
+                //add to all products
+                //add to my products
+            navigate('/');
+        } catch (error) {
+            console.log("Adding product || err: ",error);
+        }
+        
+        
     }
 
     return(

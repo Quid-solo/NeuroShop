@@ -38,7 +38,7 @@ export const matchOnAmazon = async(title, mrp)=>{
     if (titles.length === 0) return "not found";
      
     const best = fuseMatch(titles, title);
-    console.log("bestMatch: ",best);
+    // console.log("bestMatch: ",best);
 
     const amazonUrl = elements[best.item.index].href;
     const scraper = scraperMap["amazon"];

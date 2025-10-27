@@ -7,7 +7,7 @@ export const scrapeFlipkart = async (url, fresh) => {
     await page.goto(url, { waitUntil: 'networkidle2' });
     await page.goto(url, { waitUntil: 'domcontentloaded' });
 
-    const imageUrl = await page.$eval('meta[property="og:image"]', el => el.content);
+    const imgUrl = await page.$eval('meta[property="og:image"]', el => el.content);
 
     const title = await page.$eval('.VU-ZEz', el => el.textContent.trim());
     const price = await page.$eval('.Nx9bqj.CxhGGd', el => el.textContent.trim());
@@ -25,7 +25,7 @@ export const scrapeFlipkart = async (url, fresh) => {
     let amazonProd;
     if(fresh) {
       amazonProd = await matchOnAmazon(title, mrp);
-      return { flipkart: {url, imageUrl, title, price, mrp, categories,}, amazon: amazonProd };
-    } else return {url, imageUrl, title, price, mrp, categories,};
+      return { flipkart: {url, imgUrl, title, price, mrp, categories,}, amazon: amazonProd };
+    } else return {url, imgUrl, title, price, mrp, categories,};
 
 }

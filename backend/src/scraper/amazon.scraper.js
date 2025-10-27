@@ -9,7 +9,7 @@ export const scrapeAmazon = async (url, fresh) => {
   await page.goto(url, { waitUntil: 'domcontentloaded' });
   // await page.waitForSelector('#productTitle', { timeout: 10000 }); 
 
-  const imageUrl = await page.$eval('#imgTagWrapperId img', img =>
+  const imgUrl = await page.$eval('#imgTagWrapperId img', img =>
     img.getAttribute('src')
   );
   const title = await page.$eval('#productTitle', el => el.textContent.trim());
@@ -27,6 +27,6 @@ export const scrapeAmazon = async (url, fresh) => {
   let flipkartProd;
   if(fresh) {
     flipkartProd = await matchOnFlipkart(title, mrp);
-    return { amazon: {url, imageUrl, title, price, mrp, categories,}, flipkart: flipkartProd };
-  } else return {url, imageUrl, title, price, mrp, categories,};
+    return { amazon: {url, imgUrl, title, price, mrp, categories,}, flipkart: flipkartProd };
+  } else return {url, imgUrl, title, price, mrp, categories,};
 };

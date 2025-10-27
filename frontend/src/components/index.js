@@ -6,7 +6,6 @@ import Footer from './Footer/Footer';
 import Logo from './Logo/Logo';
 import Button from './Button/Button';
 import Input from './Input/Input';
-import Home from './Home/Home';
 import Protected from './Protected/Protected';
 import HeaderIconMenu from './HeaderIconMenu/HeaderIconMenu';
 import AddProduct from './AddProduct/AddProduct';
@@ -22,7 +21,6 @@ export {
     Logo,
     Button,
     Input,
-    Home,
     Protected,
     HeaderIconMenu,
     AddProduct,
