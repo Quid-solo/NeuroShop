@@ -10,6 +10,7 @@ import Protected from './Protected/Protected';
 import HeaderIconMenu from './HeaderIconMenu/HeaderIconMenu';
 import AddProduct from './AddProduct/AddProduct';
 import ProductCard from './ProductCard/ProductCard';
+import AddressForm from './AddressForm/AddressForm';
 
 
 export {
@@ -25,4 +26,5 @@ export {
     HeaderIconMenu,
     AddProduct,
     ProductCard,
+    AddressForm,
 }

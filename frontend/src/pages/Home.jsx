@@ -1,18 +1,24 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import service from "../../../appwrite/config";
 import { ProductCard, Container } from "../components";
+import { useDispatch, useSelector } from "react-redux";
+import { newToStore } from "../store/productSlice";
 
 export default function Home() {
-    const [products, setProducts] = useState([]);
+    const dispatch = useDispatch();
+    const data = useSelector(state=>state.product)
 
     useEffect(() => {
-        setProducts([]);
         service.getProducts().then((products) => {
             if (products) {
-                setProducts(products.rows);
+                dispatch(newToStore({
+                    list: "allProducts",
+                    data: products.rows,
+                }))
             }
         })
     }, []);
+
 
 
     return (
@@ -20,8 +26,7 @@ export default function Home() {
             <Container>
                 <div className='flex flex-wrap'>
                     {
-                    products.map((product)=> (
-                    
+                    data?.allProducts?.map((product)=> (
                         <div key={product.$id} className='p-2 w-1/3'>
                             <ProductCard {...product} />
                         </div>

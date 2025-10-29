@@ -2,11 +2,14 @@ import { useNavigate } from "react-router-dom";
 import { Button, Input, Logo } from "../index";
 import { useForm } from "react-hook-form";
 import service from "../../../../appwrite/config";
+import { addToStore } from "../../store/productSlice";
+import { useDispatch } from "react-redux";
 
 export default function AddProduct(){
 
     const {register, handleSubmit} = useForm();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const registerProduct = async (data)=>{
         const productUrl = encodeURIComponent(data.url);
@@ -14,14 +17,25 @@ export default function AddProduct(){
         try {
             const response = await fetch(`http://localhost:5000/api/scrape?url=${productUrl}`);
             const productData = await response.json();
-            const mrp = productData?.amazon?.mrp || productData?.flipkart?.mrp;
-            if(mrp) {
-                delete productData?.amazon?.mrp
-                delete productData?.flipkart?.mrp
-            }
+            if(productData){
+                const mrp = productData?.amazon?.mrp || productData?.flipkart?.mrp;
+                if(mrp) {
+                    delete productData?.amazon?.mrp
+                    delete productData?.flipkart?.mrp
+                }
+                //first check for the title of the fetched product and from the array of the already stored products in store
                 service.addProduct({mrp, platform: productData});
-                //add to all products
-                //add to my products
+
+                dispatch(addToStore({
+                    list: "allProducts",
+                    product: productData,
+                }))
+                
+                dispatch(addToStore({
+                    list: "myProducts",
+                    product: productData,
+                }))
+            }
             navigate('/');
         } catch (error) {
             console.log("Adding product || err: ",error);

@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux'
 import { Button, Input, Logo } from '../index'
 import { useState } from 'react'
 import authService from '../../../../appwrite/auth'
+import service from '../../../../appwrite/config'
 
 
 export default function SignUp() {
@@ -22,7 +23,10 @@ export default function SignUp() {
             const session = await authService.createUser(data);
             if(session){
                 const userData = await authService.getCurrentUser();
-                if(userData) dispatch(storeLogin(userData));
+                if(userData) {
+                    dispatch(storeLogin(userData));
+                    service.addUser(userData.$id);
+                }
                 navigate('/');
             }
         } catch (error) {

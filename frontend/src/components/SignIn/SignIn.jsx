@@ -5,6 +5,8 @@ import {Button, Input, Logo} from '../index'
 import { useDispatch } from 'react-redux'
 import authService from '../../../../appwrite/auth'
 import { useState } from 'react'
+import service from '../../../../appwrite/config'
+import { initiateState} from '../../store/productSlice'
 
 export default function SignIn() {
 
@@ -21,7 +23,12 @@ export default function SignIn() {
             const session = await authService.login(data);
             if(session){
                 const userData = await authService.getCurrentUser();
-                if(userData) dispatch(storeLogin(userData));
+                if(userData) {
+                    dispatch(storeLogin(userData));
+                    const otherData = await service.getOtherData(userData.$id);
+                    if(otherData) dispatch(initiateState(otherData))
+                        console.log(otherData);
+                }
                 navigate('/');
             }
         } catch (error) {

@@ -3,7 +3,7 @@ import { FaUserCircle } from 'react-icons/fa';
 import {createPortal} from 'react-dom'
 import authService from '../../../../appwrite/auth'
 import {useNavigate} from 'react-router-dom'
-import {useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import {logout} from '../../store/authSlice'
 import {Button} from '../index'
 
@@ -13,6 +13,7 @@ export default function HeaderIconMenu(){
     const [open, setOpen] = useState(false);
     const ref = useRef();
     const popupRef = useRef();
+    const authActive = useSelector(state => state.auth.active);
 
     useEffect(() => {
         const handleClickOutside = (e) => {
@@ -37,6 +38,30 @@ export default function HeaderIconMenu(){
       })
     }
 
+    const navItems = [
+        {
+            name: 'My Addresses',
+            url: '/addresses',
+            active: authActive,
+        },
+        {
+            name: 'My Products',
+            url: '/my-products',
+            active: authActive,
+        },
+        {
+            name: 'Orders',
+            url: '/orders',
+            active: authActive,
+        },
+        {
+            name: 'Wishlist',
+            url: '/wishlist',
+            active: authActive,
+        },
+        
+    ]
+
     return (
     <div className="user-menu-wrapper" ref={ref}>
       <FaUserCircle
@@ -49,10 +74,11 @@ export default function HeaderIconMenu(){
         createPortal(
           <div className="fixed top-14 right-5 bg-white border border-gray-300 shadow-lg rounded-md z-[9999] w-48 pointer-events-auto">
             <ul className="divide-y divide-gray-200">
-              <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer" >My Account</li>
-              <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer" >My Products</li>
-              <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer" >My Orders</li>
-              <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer" >Wishlist</li>
+              {navItems.map((item)=>{
+                return item.active ? (
+                  <li key={item.name} className="px-4 py-2 hover:bg-gray-100 cursor-pointer" onClick={()=> navigate(item.url)}>{item.name}</li>
+                ) : null
+              })}
               <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer"><Button onClick={logoutHandler}>Logout</Button></li>
             </ul>
           </div>,

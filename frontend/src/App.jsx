@@ -4,6 +4,8 @@ import authService from '../../appwrite/auth'
 import {login, logout} from './store/authSlice'
 import {Header, Footer} from './components'
 import { Outlet } from 'react-router-dom'
+import service from '../../appwrite/config'
+import { initiateState } from './store/productSlice'
 
 
 function App() {
@@ -14,7 +16,18 @@ function App() {
     setLoading(true);
     authService.getCurrentUser()
       .then((userData)=>{
-        userData ? dispatch(login({userData})) : dispatch(logout());
+        if(userData) {
+          dispatch(login({userData}));
+          service.getOtherData(userData.$id).then((otherData)=>{
+            if(otherData) {
+              // dispatch(addOtherData(otherData.addresses))
+              dispatch(initiateState(otherData))
+            }
+          })
+
+        } else {
+          dispatch(logout())
+        };
       })
       .catch((error) => {
         console.error("Auth error:", error);

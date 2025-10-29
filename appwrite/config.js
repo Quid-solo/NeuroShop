@@ -69,6 +69,50 @@ export class Service{
             console.log("APPWRITE SERVICE || GETPRODUCTS ERR: ", error);
         }
     }
+
+    async addUser(userid){
+        try {
+            await this.database.createRow({
+                databaseId: conf.appwriteDatabaseId,
+                tableId: conf.appwriteUserTableId,
+                rowId: userid,
+                data: {
+                    myproducts: [],
+                    orders: [],
+                    wishlist: [],
+                    cart: [],
+                    addresses: [],
+                }
+            })
+        } catch (error) {
+            console.log("APPWRITE SERVICE || ADDING USER ERR: ", error)
+        }
+    }
+
+    async addOtherData({userid, userdata}){
+        try {
+            await this.database.updateRow({
+                databaseId: conf.appwriteDatabaseId,
+                tableId: conf.appwriteUserTableId,
+                rowId: userid,
+                data: {...userdata}
+            })
+        } catch (error) {
+            console.log("APPWRITE SERVICE || ADDING OTHER DATA ERR: ", error)
+        }
+    }
+
+    async getOtherData(rowId){
+        try {
+            return await this.database.getRow({
+                databaseId: conf.appwriteDatabaseId,
+                tableId: conf.appwriteUserTableId,
+                rowId,
+            })
+        } catch (error) {
+            console.log("APPWRITE SERVICE || GETING OTHER DATA ERR: ", error)
+        }
+    }
 }
 
 const service = new Service();
