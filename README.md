@@ -24,7 +24,7 @@ Online shoppers often waste time manually comparing prices across multiple e-com
 - 🔗 Accepts a product URL from a supported e-commerce site
 
 <div style="text-align: center;">
-  <img src="frontend/src/assets/screenshots/url-input-form.png" alt="URL input form" style="height: 250px;" />
+  <img src="frontend/src/assets/Screenshots/url-input-form.png" alt="URL input form" style="height: 250px;" />
   <p><em>User enters a product URL to initiate scraping</em></p>
 </div>
 
@@ -32,7 +32,7 @@ Online shoppers often waste time manually comparing prices across multiple e-com
 - 🧠 Matches similar products using Fuse.js fuzzy matching
 
 <div style="text-align: center;">
-  <img src="frontend/src/assets/screenshots/fuzzy-matching-code.png" alt="Fuzzy Matching Logic" style="height: 250px;" />
+  <img src="frontend/src/assets/Screenshots/fuzzy-matching-code.png" alt="Fuzzy Matching Logic" style="height: 250px;" />
   <p><em>Fuse.js configuration for threshold-based matching</em></p>
 </div>
 
@@ -70,7 +70,7 @@ Online shoppers often waste time manually comparing prices across multiple e-com
 ### 👤 Step 1: Create a User Account  
 Sign up using your email to access personalized features like wishlist and session persistence.  
 <div style="text-align: center;">
-  <img src="frontend/src/assets/screenshots/sign-up-form.png" alt="Sign up form" style="height: 250px;" />
+  <img src="frontend/src/assets/Screenshots/sign-up-form.png" alt="Sign up form" style="height: 250px;" />
   <p><em>Sign up form for new users</em></p>
 </div>
 
@@ -81,8 +81,8 @@ Sign up using your email to access personalized features like wishlist and sessi
 Go to the Add product page and enter a product link from Flipkart or Amazon   
 (*other platforms are under development)   
 <div style="text-align: center;">
-  <img src="frontend/src/assets/screenshots/url-input-form.png" alt="URL input product form" style="height: 250px;" />
-  <p><em>Sign up form for new users</em></p>
+  <img src="frontend/src/assets/Screenshots/url-input-form.png" alt="URL input product form" style="height: 250px;" />
+  <p><em>Product URL input form</em></p>
 </div>
 
 ---
@@ -91,7 +91,7 @@ Go to the Add product page and enter a product link from Flipkart or Amazon
 NeuroShop scrapes similar listings and uses fuzzy matching to compare titles and specs.        
 <div style="text-align: center;">
   <img src="frontend/src/assets/screenshots/data-scraping-process.png" alt="Product scraping process" style="height: 200px;" />
-  <p><em>Sign up form for new users</em></p>
+  <p><em>Product scraping process</em></p>
 </div>
 
 ---
@@ -99,16 +99,16 @@ NeuroShop scrapes similar listings and uses fuzzy matching to compare titles and
 ### 🛒 Step 4: View Unified Product Cards  
 See price comparisons, platform links, and add items to your wishlist or cart.  
 <div style="text-align: center;">
-  <img src="frontend/src/assets/screenshots/home-user.png" alt="home-user" style="height: 250px;" />
-  <p><em>Sign up form for new users</em></p>
+  <img src="frontend/src/assets/Screenshots/home-user.png" alt="home-user" style="height: 250px;" />
+  <p><em>Home page for user</em></p>
 </div>
 
 ---
 
 Now this added product is also visible in the my products section
 <div style="text-align: center;">
-  <img src="frontend/src/assets/screenshots/myproducts.png" alt="my-products" style="height: 250px;" />
-  <p><em>Sign up form for new users</em></p>
+  <img src="frontend/src/assets/Screenshots/myproducts.png" alt="my-products" style="height: 250px;" />
+  <p><em>User's my product page</em></p>
 </div>
 
 ## 📽️ Demo Video
