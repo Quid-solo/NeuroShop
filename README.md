@@ -114,16 +114,13 @@ Now this added product is also visible in the my products section
 ## 📽️ Demo Video
 
 Watch NeuroShop in action:  
-<video width="640" height="360" controls>
-  <source src="./frontend/src/assets/DemoVideo/demo.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+[Demo video link](https://drive.google.com/file/d/1AMp46BJ3VzZC-A3nkuSrIUK0aFa0lDUO/view?usp=sharing)
 
 ---
 
 ## 🌐 Live Demo
 
-Try it yourself: 
+Sorry, I try many times but not able to deploy it successfully.
 
 ---
 
