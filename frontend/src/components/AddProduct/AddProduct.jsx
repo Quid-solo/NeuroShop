@@ -5,6 +5,7 @@ import service from "../../appwrite/config";
 import { newToStore } from "../../store/productSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
+import conf from "../../appwrite/configVariables/conf";
 
 export default function AddProduct(){
     let myproducts = useSelector(state=> state.product?.myproducts);
@@ -26,7 +27,7 @@ export default function AddProduct(){
         const productUrl = encodeURIComponent(data.url);
         
         try {
-            const response = await fetch(`http://localhost:5000/api/scrape?url=${productUrl}`);
+            const response = await fetch(`${conf.backendUrl}/api/scrape?url=${productUrl}`);
             let productData = await response.json();
             if(productData){
                 const mrp = productData?.amazon?.mrp || productData?.flipkart?.mrp;
