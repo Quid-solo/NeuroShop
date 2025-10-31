@@ -1,12 +1,12 @@
 import { useEffect } from "react";
-import service from "../../../appwrite/config";
+import service from "../appwrite/config";
 import { ProductCard, Container } from "../components";
 import { useDispatch, useSelector } from "react-redux";
 import { newToStore } from "../store/productSlice";
 
 export default function Home() {
     const dispatch = useDispatch();
-    const data = useSelector(state=>state.product)
+    const allProducts = useSelector(state=>state.product?.allProducts)
 
     useEffect(() => {
         service.getProducts().then((products) => {
@@ -26,9 +26,9 @@ export default function Home() {
             <Container>
                 <div className='flex flex-wrap'>
                     {
-                    data?.allProducts?.map((product)=> (
-                        <div key={product.$id} className='p-2 w-1/3'>
-                            <ProductCard {...product} />
+                    allProducts?.map((product)=> (
+                        <div key={product.$id} className='p-2 w-1/4'>
+                            <ProductCard product={product} />
                         </div>
                     ))}
                 </div>

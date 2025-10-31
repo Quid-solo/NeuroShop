@@ -1,11 +1,11 @@
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
-import {login as storeLogin} from '../../store/authSlice'
-import {Button, Input, Logo} from '../index'
+import {setAuthLoading, login as storeLogin} from '../../store/authSlice'
+import {Button, Input, LoadingSpinner, Logo} from '../index'
 import { useDispatch } from 'react-redux'
-import authService from '../../../../appwrite/auth'
+import authService from '../../appwrite/auth'
 import { useState } from 'react'
-import service from '../../../../appwrite/config'
+import service from '../../appwrite/config'
 import { initiateState} from '../../store/productSlice'
 
 export default function SignIn() {
@@ -23,11 +23,13 @@ export default function SignIn() {
             const session = await authService.login(data);
             if(session){
                 const userData = await authService.getCurrentUser();
+                console.log("userData", userData);
                 if(userData) {
                     dispatch(storeLogin(userData));
+                    dispatch(setAuthLoading(false));
                     const otherData = await service.getOtherData(userData.$id);
-                    if(otherData) dispatch(initiateState(otherData))
-                        console.log(otherData);
+                    console.log(otherData);
+                    if(otherData) dispatch(initiateState(otherData));
                 }
                 navigate('/');
             }
@@ -94,5 +96,10 @@ export default function SignIn() {
                 </form>
             </div>
         </div>
-    ) : ( <h1 className='text-center'><i>Loging in...</i></h1> )
+    ) : ( 
+        <>
+        <LoadingSpinner />
+        <h1 className='text-center'><i>Loging in...</i></h1> 
+        </>
+        )
 };

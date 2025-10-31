@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
-import {Button, Input} from "../index";
+import {Button, Input, LoadingSpinner} from "../index";
 import { useState } from "react";
-import service from "../../../../appwrite/config";
+import service from "../../appwrite/config";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { newToStore } from "../../store/productSlice";
@@ -11,7 +11,7 @@ export default function AddressForm({setShowform}){
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const userid = useSelector(state=> state.auth.userData.$id)
+    const userid = useSelector(state=> state.auth.userData.$id);
     let addresses = useSelector(state=> state.product?.addresses);
     addresses = JSON.parse(addresses);
 
@@ -34,10 +34,8 @@ export default function AddressForm({setShowform}){
         }))
         
         setShowform(false);
-
-        navigate('./');
         setLoading(false);
-        
+        navigate('./');        
     }
 
     return !loading ? (
@@ -92,5 +90,10 @@ export default function AddressForm({setShowform}){
                 </Button>
             </form>
         </div>
-    ) : ( <h1 className='text-center'><i>Adding new address...</i></h1> )
+    ) : ( 
+        <>
+        <LoadingSpinner />
+        <h1 className='text-center'><i>Adding new address...</i></h1> 
+        </>
+        )
 };

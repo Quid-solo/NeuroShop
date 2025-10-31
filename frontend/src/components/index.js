@@ -11,7 +11,7 @@ import HeaderIconMenu from './HeaderIconMenu/HeaderIconMenu';
 import AddProduct from './AddProduct/AddProduct';
 import ProductCard from './ProductCard/ProductCard';
 import AddressForm from './AddressForm/AddressForm';
-
+import LoadingSpinner from './LoadingSpinner/LoadingSpinner';
 
 export {
     SignIn,
@@ -27,4 +27,5 @@ export {
     AddProduct,
     ProductCard,
     AddressForm,
+    LoadingSpinner,
 }

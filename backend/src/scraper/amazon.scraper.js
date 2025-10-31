@@ -5,9 +5,11 @@ import { matchOnFlipkart } from '../matcher/index.js';
 export const scrapeAmazon = async (url, fresh) => {
   const browser = await puppeteer.launch({ headless: true });
   const page = await browser.newPage();
-  await page.goto(url, { waitUntil: 'networkidle2' });
-  await page.goto(url, { waitUntil: 'domcontentloaded' });
-  // await page.waitForSelector('#productTitle', { timeout: 10000 }); 
+  await page.goto(url, { 
+    waitUntil: 'networkidle2',
+    timeout: 60000,
+   });
+  // await page.goto(url, { waitUntil: 'domcontentloaded' });
 
   const imgUrl = await page.$eval('#imgTagWrapperId img', img =>
     img.getAttribute('src')

@@ -8,9 +8,11 @@ export const matchOnFlipkart = async(title, mrp)=>{
 
     const flipkartSearchUrl = `https://www.flipkart.com/search?q=${title}`;
 
-    await page.goto(flipkartSearchUrl, { waitUntil: 'networkidle2' });
-    await page.goto(flipkartSearchUrl, { waitUntil: 'domcontentloaded' });
-    const elements = await page.$$eval('a[href*="/p/"][title]', anchors =>
+    await page.goto(flipkartSearchUrl, { 
+        waitUntil: 'networkidle2',
+        timeout: 60000,
+    });
+    let elements = await page.$$eval('a[href*="/p/"][title]', anchors =>
         anchors.slice(0, 15)
         .map(el => ({
             title: el.getAttribute('title'),
@@ -18,13 +20,36 @@ export const matchOnFlipkart = async(title, mrp)=>{
         }))
     );
 
-    const mrps = await page.$$eval('a[href*="/p/"]:not([title])', anchors =>
+    let mrps = []
+
+    if(elements.length===0){
+        elements = await page.$$eval('a[href*="/p/"]', anchors =>
         anchors
-            .filter(el => !el.querySelector('img'))
             .slice(0, 15)
-            .map(el => el.children[0]?.children[1]?.textContent.trim())
-            .filter(Boolean)
-    );
+            .map(el => {
+                const href = el.getAttribute('href');
+                const title = el.querySelector('.KzDlHZ')?.textContent?.trim();
+                return {title, href};
+            })
+        );
+
+        mrps = await page.$$eval('a[href*="/p/"] .yRaY8j', anchors =>
+            anchors
+                .slice(0, 15)
+                .map(el=>el.textContent.trim())
+        )
+
+
+    }else{
+        mrps = await page.$$eval('a[href*="/p/"]:not([title])', anchors =>
+            anchors
+                .filter(el => !el.querySelector('img'))
+                .slice(0, 15)
+                .map(el => el.children[0]?.children[1]?.textContent.trim())
+                .filter(Boolean)
+        );
+    }
+    
     // console.log(elements,mrps);
     await browser.close();
     const titles = [];

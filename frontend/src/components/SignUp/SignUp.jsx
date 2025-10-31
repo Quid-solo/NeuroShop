@@ -1,11 +1,12 @@
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
-import {login as storeLogin} from '../../store/authSlice'
+import {setAuthLoading, login as storeLogin} from '../../store/authSlice'
 import { useDispatch } from 'react-redux'
-import { Button, Input, Logo } from '../index'
+import { Button, Input, LoadingSpinner, Logo } from '../index'
 import { useState } from 'react'
-import authService from '../../../../appwrite/auth'
-import service from '../../../../appwrite/config'
+import authService from '../../appwrite/auth'
+import service from '../../appwrite/config'
+import { initiateState } from '../../store/productSlice'
 
 
 export default function SignUp() {
@@ -25,7 +26,9 @@ export default function SignUp() {
                 const userData = await authService.getCurrentUser();
                 if(userData) {
                     dispatch(storeLogin(userData));
-                    service.addUser(userData.$id);
+                    dispatch(setAuthLoading(false));
+                    const otherData = await service.addUser(userData.$id);
+                    if(otherData) dispatch(initiateState(otherData));
                 }
                 navigate('/');
             }
@@ -95,5 +98,10 @@ export default function SignUp() {
                 </form>
             </div>
         </div>
-    ) : ( <h1 className='text-center'><i>Creating the new user...</i></h1> )
+    ) : ( 
+        <>
+        <LoadingSpinner />
+        <h1 className='text-center'><i>Creating new account...</i></h1> 
+        </>
+        )
 };

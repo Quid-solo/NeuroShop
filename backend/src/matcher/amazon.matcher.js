@@ -7,9 +7,11 @@ export const matchOnAmazon = async(title, mrp)=>{
     const page = await browser.newPage();
 
     const amazonSearchUrl = `https://www.amazon.in/s?k=${title}`;
-
-    await page.goto(amazonSearchUrl, { waitUntil: 'networkidle2' });
-    await page.goto(amazonSearchUrl, { waitUntil: 'domcontentloaded' });
+    
+    await page.goto(amazonSearchUrl, { 
+        waitUntil: 'networkidle2',
+        timeout: 60000,
+    });
     const elements = await page.$$eval('a[href*="/dp/"]', anchors =>
         anchors
             .filter(el => el.querySelector('h2 span')) // ensure it has a title

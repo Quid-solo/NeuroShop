@@ -1,50 +1,76 @@
 import { useNavigate } from "react-router-dom";
-import { Button, Input, Logo } from "../index";
+import { Button, Input, LoadingSpinner, Logo } from "../index";
 import { useForm } from "react-hook-form";
-import service from "../../../../appwrite/config";
-import { addToStore } from "../../store/productSlice";
-import { useDispatch } from "react-redux";
+import service from "../../appwrite/config";
+import { newToStore } from "../../store/productSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
 
 export default function AddProduct(){
+    let myproducts = useSelector(state=> state.product?.myproducts);
+    myproducts = JSON.parse(myproducts);
+    const allproducts = useSelector(state=> state.product?.allProducts);
+    const userid = useSelector(state=> state.auth.userData?.$id)
+
+    const [loading, setLoading] = useState(false);
+    
+    // console.log("userid", userid);
+    // console.log("allproducts", allproducts);
 
     const {register, handleSubmit} = useForm();
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const registerProduct = async (data)=>{
+        setLoading(true);
         const productUrl = encodeURIComponent(data.url);
         
         try {
             const response = await fetch(`http://localhost:5000/api/scrape?url=${productUrl}`);
-            const productData = await response.json();
+            let productData = await response.json();
             if(productData){
                 const mrp = productData?.amazon?.mrp || productData?.flipkart?.mrp;
                 if(mrp) {
                     delete productData?.amazon?.mrp
                     delete productData?.flipkart?.mrp
                 }
-                //first check for the title of the fetched product and from the array of the already stored products in store
-                service.addProduct({mrp, platform: productData});
 
-                dispatch(addToStore({
+                
+
+                productData = JSON.stringify(productData);
+
+                const product = await service.addProduct({mrp, platform: productData});
+
+                const myproductsString = JSON.stringify([...myproducts,product.$id])
+
+                await service.addOtherData({
+                    userid,
+                    userdata: {
+                        myproducts: myproductsString,
+                    }
+                })
+
+                dispatch(newToStore({
                     list: "allProducts",
-                    product: productData,
+                    data: [...allproducts, product],
                 }))
                 
-                dispatch(addToStore({
+                dispatch(newToStore({
                     list: "myProducts",
-                    product: productData,
+                    data: myproductsString,
                 }))
             }
             navigate('/');
         } catch (error) {
-            console.log("Adding product || err: ",error);
+            console.log("Adding product failed || err: ",error);
+        } finally{
+            setLoading(false);
         }
         
         
     }
 
-    return(
+    return !loading ? (
         <div className='flex items-center justify-center w-full'>
             <div className={`mx-auto w-full max-w-lg bg-gray-100 rounded-xl p-10 border border-black/10`}>
                 <div className='mb-2 flex justify-center'>
@@ -71,5 +97,10 @@ export default function AddProduct(){
                 </form>
             </div>
         </div>
-    )
+    ) : ( 
+        <>
+        <LoadingSpinner />
+        <h1 className='text-center'><i>Wait scraping data for the product...</i></h1> 
+        </>
+        )
 };

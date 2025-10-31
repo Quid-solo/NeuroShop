@@ -4,8 +4,10 @@ import { matchOnAmazon } from '../matcher/index.js';
 export const scrapeFlipkart = async (url, fresh) => {
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
-    await page.goto(url, { waitUntil: 'networkidle2' });
-    await page.goto(url, { waitUntil: 'domcontentloaded' });
+    await page.goto(url, { 
+      waitUntil: 'networkidle2',
+      timeout: 60000,
+    });
 
     const imgUrl = await page.$eval('meta[property="og:image"]', el => el.content);
 

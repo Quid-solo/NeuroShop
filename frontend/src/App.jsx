@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
 import {useDispatch} from 'react-redux'
-import authService from '../../appwrite/auth'
-import {login, logout} from './store/authSlice'
-import {Header, Footer} from './components'
+import authService from './appwrite/auth'
+import {login, logout, setAuthLoading} from './store/authSlice'
+import {Header, Footer, LoadingSpinner} from './components'
 import { Outlet } from 'react-router-dom'
-import service from '../../appwrite/config'
-import { initiateState } from './store/productSlice'
+import service from './appwrite/config'
+import { initiateState, newToStore } from './store/productSlice'
 
 
 function App() {
@@ -17,7 +17,8 @@ function App() {
     authService.getCurrentUser()
       .then((userData)=>{
         if(userData) {
-          dispatch(login({userData}));
+          dispatch(login(userData));
+          dispatch(setAuthLoading(false));
           service.getOtherData(userData.$id).then((otherData)=>{
             if(otherData) {
               // dispatch(addOtherData(otherData.addresses))
@@ -25,8 +26,18 @@ function App() {
             }
           })
 
+          service.getProducts().then((products) => {
+            if (products) {
+                dispatch(newToStore({
+                    list: "allProducts",
+                    data: products.rows,
+                }))
+            }
+        })
+
         } else {
-          dispatch(logout())
+          dispatch(logout());
+          dispatch(setAuthLoading(false));
         };
       })
       .catch((error) => {
@@ -47,7 +58,12 @@ function App() {
         </div>
       </div>
     </>
-  ) : (<><h1 className='text-center'><i>Loading...</i></h1></>)
+  ) :( 
+        <>
+        <LoadingSpinner />
+        <h1 className='text-center'><i>Loading</i></h1> 
+        </>
+      )
 }
 
 export default App

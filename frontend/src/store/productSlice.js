@@ -5,15 +5,15 @@ const productSlice = createSlice({
     initialState: {
         addresses: "[]",
         allProducts: [],
-        myProducts: [],
-        cart: [],
-        wishlist: [],
-        orders: [],
+        myproducts: "[]",
+        cart: "[]",
+        wishlist: "[]",
+        orders: "[]",
     },
     reducers: {
         initiateState: (state, action) => {
             state.addresses = action.payload.addresses;
-            state.myProducts = action.payload.myproducts;
+            state.myproducts = action.payload.myproducts;
             state.cart = action.payload.cart;
             state.wishlist = action.payload.wishlist;
             state.orders = action.payload.orders;

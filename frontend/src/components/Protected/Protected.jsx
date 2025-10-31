@@ -1,22 +1,28 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import {LoadingSpinner} from "../index";
 
 export default function Protected({children, authentication}) {
     const navigate = useNavigate();
-    const [loading, setLoading] = useState(true);
+    // const [load, setLoad] = useState(false);
     
-    const authActive = useSelector(state => state.auth.active);
-
+    const {active, loading} = useSelector(state => state.auth);
+    // console.log(active)
     useEffect(() => {
-        //check below code again
-        if (authentication && authActive !== authentication) {
-            navigate("/login")
-        } else if (!authentication && authActive !== authentication) {
+        // setLoad(true)
+        if (authentication && active !== authentication) {
+            if(!loading) navigate("/login")
+        } else if (!authentication && active !== authentication) {
             navigate("./");                  //this . here tells to continue to the current url if you dont use . here it renders to the root.
         }
-        setLoading(false)
-    },[authActive, navigate, authentication])
+        // setLoad(false)
+    },[active, navigate, authentication, loading])
 
-    return loading ? <h1>Loading...</h1> : <>{children}</>;
-}; 
+    return loading ? ( 
+        <>
+        <LoadingSpinner />
+        <h1 className='text-center'><i>Loading...</i></h1> 
+        </>
+        ) : <>{children}</>;
+};
